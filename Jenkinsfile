@@ -1,6 +1,6 @@
 #!groovy
 
-node('aws&&docker')
+node()
 {
 	withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY',
 					   credentialsId: 'aws_cred', secretKeyVariable: 'AWS_SECRET_KEY']])
