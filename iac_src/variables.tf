@@ -19,5 +19,5 @@ variable "instance_type" {
 }
 
 variable "conn_timeout" {
-	default = "5m"
+	default = "4m"
 }
