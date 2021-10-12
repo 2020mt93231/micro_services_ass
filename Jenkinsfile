@@ -16,13 +16,13 @@ node('aws&&docker')
                 git branch: 'master', credentialsId: 'git_cred',
                     url: 'https://github.com/2020mt93231/micro_services_ass.git'
             }
-            dir("key")
-            {
-                withCredentials([file(credentialsId: 'scalable_service_key', variable: 'FILE')])
-                {
-                    sh "cp ${FILE} dslabs_automation.pem"
-                }
-            }
+//             dir("key")
+//             {
+//                 withCredentials([file(credentialsId: 'scalable_service_key', variable: 'FILE')])
+//                 {
+//                     sh "cp ${FILE} dslabs_automation.pem"
+//                 }
+//             }
 
             stage('Infra')
             {
