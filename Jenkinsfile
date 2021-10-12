@@ -13,7 +13,7 @@ node('aws&&docker')
 //         {
             stage('Git checkout')
             {
-                git branch: 'master', credentialsId: 'git_cred',
+                git branch: 'main', credentialsId: 'git_cred',
                     url: 'https://github.com/2020mt93231/micro_services_ass.git'
             }
 //             dir("key")
