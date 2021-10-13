@@ -6,7 +6,7 @@ variable "region" {
   default = "ap-south-1"
 }
 
-variable "agent_user" {
+variable "ec2_user" {
   default = "ubuntu"
 }
 
@@ -21,3 +21,5 @@ variable "instance_type" {
 variable "conn_timeout" {
 	default = "4m"
 }
+
+variable "key_name" {}

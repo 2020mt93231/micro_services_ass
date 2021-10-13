@@ -1,6 +1,6 @@
 #!groovy
 
-node()
+node
 {
 	withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY',
 					   credentialsId: 'aws_cred', secretKeyVariable: 'AWS_SECRET_KEY']])
@@ -8,54 +8,94 @@ node()
         deleteDir()
 
         def terminate = params.TERMINATE_INSTANCE
+        def key_name = "ec2_key"
 
-//         try
-//         {
-            stage('Git checkout')
+        stage('Git checkout')
+        {
+            git branch: 'main', credentialsId: 'git_cred',
+                url: 'https://github.com/2020mt93231/micro_services_ass.git'
+        }
+        dir("key")
+        {
+            withCredentials([file(credentialsId: 'ec2_key', variable: 'FILE')])
             {
-                git branch: 'main', credentialsId: 'git_cred',
-                    url: 'https://github.com/2020mt93231/micro_services_ass.git'
+                powershell "cp ${FILE} ${ec2_key}.pem"
             }
-//             dir("key")
-//             {
-//                 withCredentials([file(credentialsId: 'scalable_service_key', variable: 'FILE')])
-//                 {
-//                     sh "cp ${FILE} dslabs_automation.pem"
-//                 }
-//             }
+        }
 
-            stage('Infra')
+        stage('Infra')
+        {
+            dir("iac_src")
             {
-                sh "terraform init iac_src"
-                sh "terraform validate -var=\'access_key=${AWS_ACCESS_KEY}\' -var=\'secret_key=${AWS_SECRET_KEY}\'  iac_src"
-                sh "terraform plan -var=\'access_key=${AWS_ACCESS_KEY}\' -var=\'secret_key=${AWS_SECRET_KEY}\' -input=false -out=plan.out iac_src"
-                sh "terraform apply -input=false -auto-approve plan.out"
+                powershell 'terraform init'
+                powershell 'terraform validate'
+                powershell 'terraform plan -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "key_name=${key_name}"'
+                powershell 'terraform apply -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" "key_name=${key_name}" -auto-approve'
             }
-//         }
-//         catch (e)
-//         {
-//             currentBuild.result = 'FAILURE'
-//             println(e)
-//         }
-//         finally
-//         {
-//             if ("${terminate}" == 'true')
-//             {
-//                 stage('Terminate Infra')
-//                 {
-//                     echo "Terminating the instance"
-//                     sh "terraform destroy -auto-approve iac_src"
-//                 }
-//             }
-//             else
-//             {
-//                 stage('Keep Infra')
-//                 {
-//                     echo "Keeping the instance in AWS, please check the archive file"
-//                     sh "terraform output -json > ${manifest_file}"
-//                     archiveArtifacts allowEmptyArchive: true, artifacts: "${manifest_file}"
-//                 }
-//             }
-//         }
+        }
     }
 }
+
+
+
+// #!groovy
+//
+// node()
+// {
+// 	withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY',
+// 					   credentialsId: 'aws_cred', secretKeyVariable: 'AWS_SECRET_KEY']])
+//     {
+//         deleteDir()
+//
+//         def terminate = params.TERMINATE_INSTANCE
+//
+// //         try
+// //         {
+//             stage('Git checkout')
+//             {
+//                 git branch: 'main', credentialsId: 'git_cred',
+//                     url: 'https://github.com/2020mt93231/micro_services_ass.git'
+//             }
+// //             dir("key")
+// //             {
+// //                 withCredentials([file(credentialsId: 'scalable_service_key', variable: 'FILE')])
+// //                 {
+// //                     sh "cp ${FILE} dslabs_automation.pem"
+// //                 }
+// //             }
+//
+//             stage('Infra')
+//             {
+//                 sh "terraform init iac_src"
+//                 sh "terraform validate -var=\'access_key=${AWS_ACCESS_KEY}\' -var=\'secret_key=${AWS_SECRET_KEY}\'  iac_src"
+//                 sh "terraform plan -var=\'access_key=${AWS_ACCESS_KEY}\' -var=\'secret_key=${AWS_SECRET_KEY}\' -input=false -out=plan.out iac_src"
+//                 sh "terraform apply -input=false -auto-approve plan.out"
+//             }
+// //         }
+// //         catch (e)
+// //         {
+// //             currentBuild.result = 'FAILURE'
+// //             println(e)
+// //         }
+// //         finally
+// //         {
+// //             if ("${terminate}" == 'true')
+// //             {
+// //                 stage('Terminate Infra')
+// //                 {
+// //                     echo "Terminating the instance"
+// //                     sh "terraform destroy -auto-approve iac_src"
+// //                 }
+// //             }
+// //             else
+// //             {
+// //                 stage('Keep Infra')
+// //                 {
+// //                     echo "Keeping the instance in AWS, please check the archive file"
+// //                     sh "terraform output -json > ${manifest_file}"
+// //                     archiveArtifacts allowEmptyArchive: true, artifacts: "${manifest_file}"
+// //                 }
+// //             }
+// //         }
+//     }
+// }
