@@ -16,7 +16,7 @@ resource "aws_instance" "scalable_host" {
 			host     = aws_instance.scalable_host.public_ip
 			timeout  = var.conn_timeout
 			user     = var.ec2_user
-			private_key = file(format("key/", var.key_name, ".pem"))
+			private_key = file(format("key/%s.pem", var.key_name))
 	}
 
 	provisioner "file" {
