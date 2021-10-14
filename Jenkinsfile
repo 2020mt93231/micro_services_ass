@@ -17,11 +17,11 @@ node
         }
         dir("key")
         {
-            cwd_path = "${env.WORKSPACE}"
             withCredentials([file(credentialsId: 'ec2_key', variable: 'FILE')])
             {
                 powershell "cp ${FILE} ${key_name}.pem"
             }
+            cwd_path = "${env.WORKSPACE}\\${key_name}.pem"
         }
 
         stage('Infra creation')
