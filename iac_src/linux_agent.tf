@@ -6,30 +6,31 @@ resource "aws_instance" "scalable_host" {
 
 	subnet_id = var.subnet_id
     security_groups = [var.security_grp_id]
-
+	iam_instance_profile = var.instance_profile
 
 	tags = {
-		Name           = "ubuntu-1"
+		Name           = "ubuntu"
 		"Trender"      = var.trender
 		"ValidUntil"   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "24h"))
 		"workingHours" = "IGNORE"
 	}
 
-	provisioner "file" {
-    	source      = var.cwd
-    	destination = var.private_key
-  	}
-
 	connection {
-			type = "ssh"
-			host     = aws_instance.scalable_host.public_ip
-			timeout  = var.conn_timeout
-			user     = var.ec2_user
-			private_key = file(var.private_key)
+			host        = aws_instance.scalable_host.public_ip
+			type 	    = "ssh"
+			timeout     = var.conn_timeout
+			user        = var.ec2_user
+#			private_key = file("F:\\study\\bits\\scalable_service\\git_key\\ec2_key.pem")
+			private_key = file(var.priv_key)
 	}
 
+	provisioner "file" {
+#    	source      = "F:\\study\\bits\\scalable_service\\git_key"
+    	source      = var.cwd
+    	destination = "/tmp/src"
+  	}
 }
 
-output "hostname" {
-		value = aws_instance.scalable_host.public_ip
+output "ip" {
+	value = aws_instance.scalable_host.public_ip
 }

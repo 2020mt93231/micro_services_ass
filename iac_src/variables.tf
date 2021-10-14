@@ -34,17 +34,15 @@ variable "security_grp_id" {
   default = "sg-0dcf985c31f6d7e54"
 }
 
-#variable "instance_profile" {
-#	default = "automation"
-#}
+variable "instance_profile" {
+	default = "automation_user"
+}
 
 variable "key_name" {
   default = "ec2_key"
 }
 
-variable "private_key" {
-  default = "/tmp/ec2_key.pem"
-}
+variable "priv_key" {}
 
 variable "cwd" {}
 
