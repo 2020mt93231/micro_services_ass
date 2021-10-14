@@ -22,7 +22,9 @@ variable "conn_timeout" {
 	default = "4m"
 }
 
-variable "key_name" {}
+variable "key_name" {
+  default = "ec2_key.pem"
+}
 
 variable "private_key" {
   default = "key/ec2_key.pem"
