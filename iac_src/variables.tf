@@ -34,9 +34,9 @@ variable "security_grp_id" {
   default = "sg-0dcf985c31f6d7e54"
 }
 
-variable "instance_profile" {
-	default = "automation"
-}
+#variable "instance_profile" {
+#	default = "automation"
+#}
 
 variable "key_name" {
   default = "ec2_key"
