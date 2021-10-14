@@ -22,6 +22,18 @@ variable "conn_timeout" {
 	default = "4m"
 }
 
+variable "vpc_id" {
+  default = "vpc-2ef32e45"
+}
+
+variable "subnet_id" {
+  default = "subnet-fb97bfb7"
+}
+
+variable "security_grp_id" {
+  default = "sgr-0045e38d906b8a954"
+}
+
 variable "key_name" {
   default = "ec2_key"
 }
@@ -31,3 +43,5 @@ variable "private_key" {
 }
 
 variable "cwd" {}
+
+
