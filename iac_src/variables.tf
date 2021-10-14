@@ -29,3 +29,5 @@ variable "key_name" {
 variable "private_key" {
   default = "/tmp/key/ec2_key.pem"
 }
+
+variable "cwd" {}

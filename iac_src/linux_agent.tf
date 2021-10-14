@@ -21,7 +21,7 @@ resource "aws_instance" "scalable_host" {
 	}
 
 	provisioner "file" {
-    	source      = "key"
+    	source      = var.cwd
     	destination = "/tmp/key"
   	}
 }
