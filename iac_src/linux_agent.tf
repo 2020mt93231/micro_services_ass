@@ -4,6 +4,9 @@ resource "aws_instance" "scalable_host" {
 	key_name                    = var.key_name
 	associate_public_ip_address = "true"
 
+	subnet_id = var.subnet_id
+    security_groups = [var.security_grp_id]
+    iam_instance_profile = var.instance_profile
 
 	tags = {
 		Name           = "ubuntu"
