@@ -4,6 +4,7 @@ resource "aws_instance" "scalable_host" {
 	key_name                    = var.key_name
 	associate_public_ip_address = "true"
 
+
 	tags = {
 		Name           = "ubuntu"
 		"Trender"      = var.trender
@@ -16,7 +17,7 @@ resource "aws_instance" "scalable_host" {
 			host     = aws_instance.scalable_host.public_ip
 			timeout  = var.conn_timeout
 			user     = var.ec2_user
-			private_key = file(format("key/%s.pem", var.key_name))
+			private_key = file(var.private_key)
 	}
 
 	provisioner "file" {

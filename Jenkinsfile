@@ -28,8 +28,8 @@ node
             {
                 powershell 'terraform init'
                 powershell 'terraform validate'
-                powershell 'terraform plan -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "key_name=${key_name}"'
-                powershell 'terraform apply -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "key_name=${key_name}" -auto-approve'
+                powershell 'terraform plan -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "key_name=${key_name}" -var "private_key=key/${key_name}.pem"'
+                powershell 'terraform apply -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "key_name=${key_name}" -var "private_key=key/${key_name}.pem" -auto-approve'
             }
         }
     }

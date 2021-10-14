@@ -23,3 +23,7 @@ variable "conn_timeout" {
 }
 
 variable "key_name" {}
+
+variable "private_key" {
+  default = "key/ec2_key.pem"
+}
