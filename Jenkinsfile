@@ -22,6 +22,7 @@ node
                 powershell "cp ${FILE} ${key_name}.pem"
             }
             cwd_path = "${env.WORKSPACE}\\${key_name}.pem"
+            echo "Paht: ${cwd_path}"
         }
 
         stage('Infra creation')

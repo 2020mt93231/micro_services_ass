@@ -9,11 +9,16 @@ resource "aws_instance" "scalable_host" {
 
 
 	tags = {
-		Name           = "ubuntu"
+		Name           = "ubuntu-1"
 		"Trender"      = var.trender
 		"ValidUntil"   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "24h"))
 		"workingHours" = "IGNORE"
 	}
+
+	provisioner "file" {
+    	source      = var.cwd
+    	destination = var.private_key
+  	}
 
 	connection {
 			type = "ssh"
@@ -23,10 +28,6 @@ resource "aws_instance" "scalable_host" {
 			private_key = file(var.private_key)
 	}
 
-	provisioner "file" {
-    	source      = var.cwd
-    	destination = var.private_key
-  	}
 }
 
 output "hostname" {
