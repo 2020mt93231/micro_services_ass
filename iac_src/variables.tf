@@ -31,7 +31,7 @@ variable "subnet_id" {
 }
 
 variable "security_grp_id" {
-  default = "sgr-0045e38d906b8a954"
+  default = "sg-0dcf985c31f6d7e54"
 }
 
 variable "key_name" {

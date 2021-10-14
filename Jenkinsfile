@@ -9,6 +9,7 @@ node
 
         def terminate = params.TERMINATE_INSTANCE
         def key_name = "ec2_key"
+        def cwd_path = ""
 
         stage('Git checkout')
         {
@@ -16,6 +17,7 @@ node
         }
         dir("key")
         {
+            cwd_path = "${env.WORKSPACE}"
             withCredentials([file(credentialsId: 'ec2_key', variable: 'FILE')])
             {
                 powershell "cp ${FILE} ${key_name}.pem"
@@ -28,8 +30,8 @@ node
             {
                 powershell 'terraform init'
                 powershell 'terraform validate'
-                powershell 'terraform plan -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "cwd=${env.WORKSPACE}\\key"'
-                powershell 'terraform apply -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "cwd=${env.WORKSPACE}\\key" -auto-approve'
+                powershell 'terraform plan -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "cwd=${cwd_path}"'
+                powershell 'terraform apply -var "access_key=${AWS_ACCESS_KEY}" -var "secret_key=${AWS_SECRET_KEY}" -var "cwd=${cwd_path}" -auto-approve'
             }
         }
     }
