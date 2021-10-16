@@ -5,7 +5,7 @@ node
 	withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY',
 					   credentialsId: 'aws_cred', secretKeyVariable: 'AWS_SECRET_KEY'],
 					   usernamePassword(credentialsId: 'db_cred', usernameVariable: 'DB_USR',
-					   passwordVariable: 'DB_PWD')]
+					   passwordVariable: 'DB_PWD')])
     {
         deleteDir()
         def terminate = params.TERMINATE_INSTANCE
