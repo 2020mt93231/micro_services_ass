@@ -20,12 +20,10 @@ resource "aws_instance" "scalable_host" {
 			type 	    = "ssh"
 			timeout     = var.conn_timeout
 			user        = var.ec2_user
-#			private_key = file("F:\\study\\bits\\scalable_service\\git_key\\ec2_key.pem")
 			private_key = file(var.priv_key)
 	}
 
 	provisioner "file" {
-#    	source      = "F:\\study\\bits\\scalable_service\\git_key"
     	source      = var.cwd
     	destination = "/tmp/src"
   	}
