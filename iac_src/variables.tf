@@ -31,7 +31,9 @@ variable "subnet_id" {
 }
 
 variable "security_grp_id" {
-  default = "sg-0dcf985c31f6d7e54"
+  # default security group
+  default = "sg-66d40017"
+#  default = "sg-0dcf985c31f6d7e54"
 }
 
 variable "instance_profile" {
@@ -45,5 +47,9 @@ variable "key_name" {
 variable "priv_key" {}
 
 variable "cwd" {}
+
+variable "db_user" {}
+
+variable "db_pwd" {}
 
 

@@ -27,6 +27,15 @@ resource "aws_instance" "scalable_host" {
     	source      = var.cwd
     	destination = "/tmp/src"
   	}
+
+	provisioner "remote-exec" {
+		inline = [
+			"chmod +x /tmp/src/install_sql_workbench.sh",
+			"sudo /bin/bash /tmp/src/install_sql_workbench.sh"
+#			,"chmod +x /tmp/src/install_kubernetes.sh",
+#			"sudo /bin/bash /tmp/src/install_kubernetes.sh"
+		]
+	}
 }
 
 output "ip" {
