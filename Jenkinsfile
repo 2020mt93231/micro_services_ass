@@ -49,7 +49,10 @@ node
                 stage('Terminate Infra')
                 {
                     echo "Terminating the instance"
-                    sh "terraform destroy -auto-approve iac_src"
+                    dir("iac_src")
+                    {
+                        powershell "terraform destroy -var 'access_key=${AWS_ACCESS_KEY}' -var 'secret_key=${AWS_SECRET_KEY}' -var 'priv_key=${priv_key}' -var 'cwd=${cwd}' -auto-approve"
+                    }
                 }
             }
             else
@@ -57,8 +60,11 @@ node
                 stage('Keep Infra')
                 {
                     echo "Keeping the instance in AWS, please check the archive file"
-                    sh "terraform output -json > ${manifest_file}"
-                    archiveArtifacts allowEmptyArchive: true, artifacts: "${manifest_file}"
+                    dir("iac_src")
+                    {
+                        powershell "terraform output -json > manifest.json"
+                        archiveArtifacts allowEmptyArchive: true, artifacts: "${manifest.json}"
+                    }
                 }
             }
         }
