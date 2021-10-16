@@ -1,4 +1,4 @@
-resource "aws_db_instance" "mysql-db" {
+resource "aws_db_instance" "mysql_db" {
     identifier = "mysqldatabase"
     storage_type = "gp2"
     allocated_storage    = 10
@@ -21,7 +21,7 @@ resource "aws_db_instance" "mysql-db" {
     skip_final_snapshot  = false
 
 	tags = {
-		Name           = "Mysql db_instance"
+		Name           = "Mysql_db_instance"
 		"Trender"      = var.trender
 		"ValidUntil"   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "24h"))
 		"workingHours" = "IGNORE"
