@@ -63,7 +63,7 @@ node
                     dir("iac_src")
                     {
                         powershell "terraform output -json > manifest.json"
-                        archiveArtifacts allowEmptyArchive: true, artifacts: "${manifest.json}"
+                        archiveArtifacts allowEmptyArchive: true, artifacts: "manifest.json"
                     }
                 }
             }
